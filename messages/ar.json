@@ -2,5 +2,16 @@
     "HomePage": {
       "title": "مرحبا بالعالم",
       "about": "معلومات عنا"
+    },
+    "Navigation": {
+      "brand": "علامتك التجارية",
+      "dashboard": "لوحة القيادة",
+      "clients": "العملاء",
+      "reporting": "التقارير",
+      "tasks": "المهام",
+      "projects": "المشاريع",
+      "chat": "الدردشة",
+      "notifications": "الإشعارات",
+      "settings": "الإعدادات"
     }
   }

@@ -15,8 +15,9 @@ import {
   Menu,
   ChevronLeft
 } from 'lucide-react'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 const sidebarItems = [
   {
@@ -71,6 +72,7 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
   const [isExpanded, setIsExpanded] = useState(false)
+  const t = useTranslations('Navigation')
 
   return (
     <nav className={cn(
@@ -90,7 +92,7 @@ export function Sidebar({ className }: SidebarProps) {
             "font-semibold transition-all duration-300",
             isExpanded ? "opacity-100" : "opacity-0"
           )}>
-            Your Brand
+            {t('brand')}
           </span>
         </div>
         <Button
@@ -117,14 +119,14 @@ export function Sidebar({ className }: SidebarProps) {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
-              title={isExpanded ? undefined : item.title}
+              title={isExpanded ? undefined : t(item.title.toLowerCase())}
             >
               <item.icon className="h-5 w-5 min-w-5" />
               <span className={cn(
                 "whitespace-nowrap transition-all duration-300",
                 isExpanded ? "opacity-100" : "opacity-0 w-0"
               )}>
-                {item.title}
+                {t(item.title.toLowerCase())}
               </span>
             </Link>
           ))}
@@ -143,14 +145,14 @@ export function Sidebar({ className }: SidebarProps) {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
-              title={isExpanded ? undefined : item.title}
+              title={isExpanded ? undefined : t(item.title.toLowerCase())}
             >
               <item.icon className="h-5 w-5 min-w-5" />
               <span className={cn(
                 "whitespace-nowrap transition-all duration-300",
                 isExpanded ? "opacity-100" : "opacity-0 w-0"
               )}>
-                {item.title}
+                {t(item.title.toLowerCase())}
               </span>
             </Link>
           ))}

@@ -2,5 +2,16 @@
     "HomePage": {
       "title": "Hello World",
       "about": "About Us"
+    },
+    "Navigation": {
+      "brand": "Your Brand",
+      "dashboard": "Dashboard",
+      "clients": "Clients",
+      "reporting": "Reporting",
+      "tasks": "Tasks",
+      "projects": "Projects",
+      "chat": "Chat",
+      "notifications": "Notifications",
+      "settings": "Settings"
     }
   }
