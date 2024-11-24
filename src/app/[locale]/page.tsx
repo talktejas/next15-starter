@@ -1,34 +1,15 @@
 import { MainLayout } from '@/components/layout/main-layout'
-import { Suspense } from 'react'
-import { headers } from 'next/headers'
-import { use } from 'react'
+import { useTranslations } from 'next-intl';
 
-interface HomePageProps {
-  params: Promise<{
-    locale: string
-  }>
-}
-
-async function WelcomeMessage({ locale }: { locale: string }) {
-  headers()
-  return <h1>Welcome to the {locale} version</h1>
-}
-
-export default function HomePage({ params }: HomePageProps) {
-  // Use React.use to unwrap the Promise
-  const { locale } = use(params)
+export default function HomePage() {
+  const t = useTranslations('HomePage');
   
   return (
     <MainLayout>
       <div>
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <WelcomeMessage locale={locale} />
-        </Suspense>
+        <h1>{t('title')}</h1>
+        <p>{t('about')}</p>
       </div>
     </MainLayout>
   )
-}
-
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'ar' }]
 }

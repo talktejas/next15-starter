@@ -1,20 +1,40 @@
-import { ReactNode } from 'react'
+import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { locales } from '@/middleware';
 
-interface LocaleLayoutProps {
-  children: ReactNode
-  params: {
-    locale: string
-  }
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }) {
+  return {
+    title: `${locale} version`
+  };
 }
 
 export default async function LocaleLayout({
   children,
-  params
-}: LocaleLayoutProps) {
-  return children
+  params: { locale }
+}: {
+  children: React.ReactNode;
+  params: { locale: string };
+}) {
+  if (!locales.includes(locale as any)) notFound();
+
+  let messages;
+  try {
+    messages = (await import(`../../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
+  return (
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <body>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
 }
 
-// Generate static params for locales
 export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'fr' }] // add more locales as needed
+  return locales.map((locale) => ({ locale }));
 }
