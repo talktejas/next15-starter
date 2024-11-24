@@ -1,12 +1,34 @@
-import {useTranslations} from 'next-intl';
-import {Link} from '@/i18n/routing';
- 
-export default function HomePage() {
-  const t = useTranslations('HomePage');
+import { MainLayout } from '@/components/layout/main-layout'
+import { Suspense } from 'react'
+import { headers } from 'next/headers'
+import { use } from 'react'
+
+interface HomePageProps {
+  params: Promise<{
+    locale: string
+  }>
+}
+
+async function WelcomeMessage({ locale }: { locale: string }) {
+  headers()
+  return <h1>Welcome to the {locale} version</h1>
+}
+
+export default function HomePage({ params }: HomePageProps) {
+  // Use React.use to unwrap the Promise
+  const { locale } = use(params)
+  
   return (
-    <div>
-      <h1>{t('title')}</h1>
-      <Link href="/about">{t('about')}</Link>
-    </div>
-  );
+    <MainLayout>
+      <div>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <WelcomeMessage locale={locale} />
+        </Suspense>
+      </div>
+    </MainLayout>
+  )
+}
+
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'ar' }]
 }
