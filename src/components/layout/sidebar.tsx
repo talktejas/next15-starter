@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
@@ -13,11 +12,12 @@ import {
   MessageSquare,
   Settings,
   Bell,
-  Plus,
-  Menu
+  Menu,
+  ChevronLeft
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import Image from 'next/image'
 
 const sidebarItems = [
   {
@@ -71,79 +71,94 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <nav className={cn("flex flex-col bg-sidebar", className)}>
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="lg:hidden">
-            <Menu className="h-6 w-6" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-[240px] p-0">
-          <SidebarContent />
-        </SheetContent>
-      </Sheet>
-      <aside className="hidden lg:flex">
-        <SidebarContent />
-      </aside>
-    </nav>
-  )
-}
-
-function SidebarContent() {
-  const pathname = usePathname()
-  
-  return (
-    <div className="flex h-screen w-16 flex-col justify-between border-r bg-background py-3">
-      {/* Top section */}
-      <div className="flex flex-col items-center space-y-4">
-        {/* Logo */}
-        <div className="flex h-12 w-12 items-center justify-center">
-          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-xl">
-            <Plus className="h-6 w-6" />
-          </Button>
+    <nav className={cn("relative flex flex-col bg-sidebar transition-all duration-300", 
+      isExpanded ? "w-64" : "w-16", 
+      className
+    )}>
+      <div className="flex h-16 items-center justify-between px-3">
+        <div className={cn(
+          "flex items-center gap-3 overflow-hidden",
+          isExpanded ? "w-full" : "w-10"
+        )}>
+          {/* Replace with your logo */}
+          <Image
+            src="/logo.png" // Add your logo file
+            alt="Logo"
+            width={40}
+            height={40}
+            className="rounded-xl"
+          />
+          <span className={cn(
+            "font-semibold transition-all duration-300",
+            isExpanded ? "opacity-100" : "opacity-0"
+          )}>
+            Your Brand
+          </span>
         </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="h-10 w-10"
+        >
+          {isExpanded ? <ChevronLeft className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </Button>
+      </div>
 
+      <div className="flex flex-1 flex-col justify-between overflow-hidden px-3 py-4">
         {/* Main menu items */}
-        <div className="flex flex-col items-center space-y-2">
+        <div className="space-y-2">
           {sidebarItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                'flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
+                'flex h-10 items-center gap-3 rounded-lg px-3 transition-all',
                 pathname === item.href
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
-              title={item.title}
+              title={isExpanded ? undefined : item.title}
             >
               <item.icon className="h-5 w-5" />
+              <span className={cn(
+                "whitespace-nowrap transition-all duration-300",
+                isExpanded ? "opacity-100" : "opacity-0 w-0"
+              )}>
+                {item.title}
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        {/* Bottom items */}
+        <div className="space-y-2">
+          {bottomItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                'flex h-10 items-center gap-3 rounded-lg px-3 transition-all',
+                pathname === item.href
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+              )}
+              title={isExpanded ? undefined : item.title}
+            >
+              <item.icon className="h-5 w-5" />
+              <span className={cn(
+                "whitespace-nowrap transition-all duration-300",
+                isExpanded ? "opacity-100" : "opacity-0 w-0"
+              )}>
+                {item.title}
+              </span>
             </Link>
           ))}
         </div>
       </div>
-
-      {/* Bottom section */}
-      <div className="flex flex-col items-center space-y-2">
-        {bottomItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              'flex h-10 w-10 items-center justify-center rounded-xl transition-colors',
-              pathname === item.href
-                ? 'bg-primary text-primary-foreground'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-            )}
-            title={item.title}
-          >
-            <item.icon className="h-5 w-5" />
-          </Link>
-        ))}
-      </div>
-    </div>
+    </nav>
   )
 }
