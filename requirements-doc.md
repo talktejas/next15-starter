@@ -26,6 +26,7 @@
 - Theme switcher component
 - Global theme configuration
 - Base color scheme presets
+- Should have different themes with different colors. Every theme shold have light and dark mode. 
 
 ## Technical Requirements
 
@@ -40,21 +41,6 @@
 - ESLint configuration
 - Prettier setup
 - Husky for pre-commit hooks
-
-### Project Structure
-```
-src/
-├── app/
-├── components/
-│   ├── layout/
-│   ├── ui/
-│   └── shared/
-├── lib/
-│   ├── i18n/
-│   └── store/
-├── styles/
-└── types/
-```
 
 ## Out of Scope for v1
 - Component-level theme customization

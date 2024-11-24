@@ -1,0 +1,471 @@
+You are an expert in Next.js 15, React 19 TypeScript, JavaScript, React, Node.js, Next.js App Router, Zustand, Shadcn UI, Radix UI, Tailwind, and Stylus.
+
+### Documentation
+- [Next.js Documentation](https://nextjs.org/docs)
+
+### Code Style and Structure
+- Write concise, maintainable TypeScript code following best practices.
+- Use functional and declarative programming patterns, avoid classes when possible.
+- Use descriptive, meaningful variable names with auxiliary verbs (e.g., `isLoading`, `hasError`).
+- Structure components with clear organization: primary component, subcomponents, helpers, static content, and types.
+- Use named exports for components to support modularity and reusability.
+
+# Next.js 15 Project Standards and Guidelines
+
+## Core Technologies
+- Next.js 15.x
+- React 19.x
+- TypeScript
+- Node.js
+- App Router
+- Zustand
+- Shadcn UI
+- Radix UI
+- Tailwind CSS
+- Next-intl
+
+## Code Style Standards
+### Naming Conventions
+- Components: PascalCase (LoginForm.tsx)
+- Hooks: camelCase with 'use' prefix (useAuthStore.ts)
+- Utils: camelCase (formatDate.ts)
+- Constants: UPPER_SNAKE_CASE
+- Types/Interfaces: PascalCase with prefix
+  * Types: TComponentProps
+  * Interfaces: IAuthState
+- CSS Classes: kebab-case
+- Files: kebab-case except for Components
+
+### Function Patterns
+- Use arrow functions for component definitions
+- Use function keyword for utilities
+- Prefer async/await over .then()
+- Implement early returns
+- Use guard clauses
+
+## Project Structure
+root/                         # Root directory
+├── README.md
+├── src/
+│   ├── app/                 # Next.js 15 App Router
+│   │   ├── [locale]
+│   │   │   ├── (auth)/     # Auth group layout
+│   │   │   │   ├── login/
+│   │   │   │   └── register/
+│   │   │   ├── (dashboard)/ # Dashboard group layout
+│   │   │   ├── layout.tsx  # Locale-specific layout
+│   │   │   └── page.tsx    # Locale-specific home page
+│   │   ├── api/            # Route Handlers
+│   │   ├── favicon.ico
+│   │   ├── fonts/
+│   │   ├── globals.css     # Global styles
+│   │   ├── layout.tsx      # Root layout
+│   │   └── page.tsx        # Root page
+│   ├── components/
+│   │   ├── ui/            # Shadcn UI components
+│   │   ├── common/        # Shared components
+│   │   ├── feature/       # Feature-specific components
+│   │   ├── forms/         # Form components
+│   │   └── layout/
+│   │       ├── footer.tsx
+│   │       ├── header.tsx
+│   │       ├── navbar.tsx
+│   │       └── sidebar.tsx
+│   ├── i18n/              # Internationalization config
+│   │   ├── routing.ts
+│   │   └── request.ts
+│   └── lib/               # Shared utilities
+├── public/               # Static files
+│   ├── file.svg
+└── messages             # i18n messages
+
+## Next.js 15 Core Patterns
+### Route Handlers
+Location: app/api/
+- Use route.ts files instead of pages/api
+- Support Web APIs:
+  * Request/Response objects
+  * Headers and cookies
+  * Streaming responses
+- Methods:
+  * GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS
+  * Type-safe request/response handling
+- Features:
+  * Response streaming
+  * Rate limiting patterns
+  * CORS configuration
+  * Request body validation
+  * Error handling with proper status codes
+
+### Server Actions
+- Use 'use server' directive
+- Implementation:
+  * Progressive enhancement
+  * Form handling
+  * Optimistic updates
+  * Streaming responses
+  * File uploads
+- Validation:
+  * Input validation (Zod recommended)
+  * Custom validation logic
+  * Error handling
+- State Management:
+  * Revalidation patterns
+  * Cache invalidation
+  * Optimistic updates
+- Security:
+  * CSRF protection
+  * Input sanitization
+  * Rate limiting
+
+### Metadata and SEO
+#### File-based Metadata
+- Implementation files:
+  * metadata.route.ts
+  * favicon.ico
+  * opengraph-image.tsx
+  * robots.txt
+  * sitemap.xml
+#### Dynamic Metadata
+- generateMetadata function usage
+- Dynamic image generation
+- JSON-LD structured data
+- Meta tag management
+- Social media optimization
+
+### Parallel Routes and Intercepting
+- Patterns:
+  * @folder convention usage
+  * Parallel routes implementation
+  * Route interception
+  * Modal patterns
+  * Parallel states management
+- Features:
+  * Conditional rendering
+  * Loading states
+  * Error boundaries
+  * Shared layouts
+
+### Data Fetching
+- Server-side:
+  * Server Actions
+  * fetch with revalidate
+  * Static data generation
+- Cache Control:
+  * force-cache
+  * no-store
+  * revalidate timing
+- Patterns:
+  * Streaming with Suspense
+  * Parallel data fetching
+  * Sequential data fetching
+  * Preloading data
+- Cache Management:
+  * Opt-in/out strategies
+  * Revalidation
+  * On-demand revalidation
+
+## Analytics Strategy
+### Configuration
+- Setup Location: app/layout.tsx
+- Providers:
+  * Google Analytics
+  * Vercel Analytics
+  * Custom provider support
+
+### Event Tracking
+- Automatic Tracking:
+  * Route changes
+  * Page views
+  * Performance metrics
+- Custom Events:
+  * User interactions
+  * Form submissions
+  * Error occurrences
+  * Feature usage
+- Error Monitoring:
+  * Client-side errors
+  * Server-side errors
+  * API failures
+- Performance Metrics:
+  * Component render times
+  * API response times
+  * Resource loading
+
+### Web Vitals
+- Automated Collection:
+  * Core Web Vitals
+  * Custom metrics
+- Reporting:
+  * Real-time dashboards
+  * Custom reporting endpoints
+  * Threshold alerts
+
+## Component Strategy
+### File Structure (following approved structure)
+components/
+├── ui/                   # Shadcn UI components
+│   ├── button/
+│   │   ├── button.tsx
+│   │   └── index.ts
+├── forms/                # Form components
+│   ├── login-form/
+│   │   ├── login-form.tsx
+│   │   ├── login-form.test.tsx
+│   │   └── use-login-form.ts
+├── common/               # Shared components
+└── [feature]/            # Feature-specific components
+
+### Component Patterns
+- Props Interface Location: Top of file
+- Default Exports: Only for main component
+- Named Exports: For subsidiary components
+- File Organization:
+  ```tsx
+  // 1. Imports
+  import { useState } from 'react'
+  
+  // 2. Types
+  interface TButtonProps {}
+  
+  // 3. Constants
+  const BUTTON_VARIANTS = {}
+  
+  // 4. Helper Functions
+  const formatButtonText = () => {}
+  
+  // 5. Component Definition
+  export const Button = () => {}
+
+###Shadcn UI Implementation
+
+Component Extension:
+
+Extend base components
+Maintain accessibility
+Custom variant patterns
+
+
+Styling Strategy:
+
+Use cn() utility
+Maintain theme consistency
+Custom class composition
+
+### Code Organization (within files)
+1. Types/Interfaces
+2. Constants
+3. Helper Functions
+4. Hook Definitions
+5. Component Logic
+   - State management
+   - Effect handlers
+   - Event handlers
+6. Render Logic
+   - JSX structure
+   - Conditional rendering
+   - Component composition
+
+### Component Principles
+- Use named exports
+- Keep files focused and single-responsibility
+- Extract complex logic to hooks
+- Use TypeScript interfaces for props
+- Follow strict prop typing
+
+### Server Components
+- Default to server components
+- Keep client components minimal
+- Use 'use client' only when needed:
+  * Browser APIs
+  * Event listeners
+  * Client-side libraries
+
+### Client Components
+- Minimize bundle size
+- Handle hydration gracefully
+- Implement proper loading states
+- Use suspense boundaries
+- Ensure proper error boundaries
+
+## Error Handling
+### Error Pages
+- not-found.tsx: Custom 404 page
+- error.tsx: General error boundary
+- loading.tsx: Loading states
+- global-error.tsx: Root error handling
+
+### Functional Patterns
+- Early Returns:
+  * Input validation
+  * Data checks
+  * Permission checks
+- Guard Clauses:
+  * Type checking
+  * Null checks
+  * Undefined handling
+
+### Error Boundaries
+- Component Level:
+  * Feature boundaries
+  * Form boundaries
+  * Data boundaries
+- Root Level:
+  * Global error handling
+  * Recovery mechanisms
+
+### Server Actions
+- Error Types:
+  * Validation errors
+  * Permission errors
+  * Database errors
+- Error Responses:
+  * Typed error returns
+  * Status codes
+  * Error messages
+- Recovery:
+  * Retry mechanisms
+  * Fallback handling
+
+## TypeScript Standards
+- Use strict mode always
+- Prefer interfaces over types except for exact type composition
+- Avoid enums; use const maps/objects
+- Enable exhaustive checks
+- Use TypeScript for all code files
+- Disable no-undef for .tsx/.ts files
+
+## State Management
+### Zustand
+- Use Zustand for state manaement
+- Create separate stores by domain
+- Implement proper TypeScript types
+- Use shallow equality checks
+- Split stores into slices when large
+
+### Local State
+- useState for simple state
+- useReducer for complex logic
+- Context for deeply nested state
+- Avoid prop drilling through proper state lifting
+
+## Testing Strategy
+### Unit Testing (Jest + RTL)
+- Test component logic
+- Test hooks independently
+- Test utilities and helpers
+- Mock external dependencies
+- Coverage targets: 80%
+
+### Integration Testing
+- Test user flows
+- Test component interactions
+- Test form submissions
+- Test error scenarios
+
+### E2E Testing (Playwright)
+- Test critical paths
+- Test authentication flows
+- Test data persistence
+- Test responsive behavior
+
+### Next.js 15 Testing Patterns
+- Server Actions:
+  * Unit testing actions
+  * Integration testing with forms
+  * Error scenario testing
+- Route Handlers:
+  * API route testing
+  * Response streaming tests
+  * Error handling verification
+- Metadata Testing:
+  * SEO validation
+  * Dynamic metadata testing
+  * Image generation testing
+
+## Performance
+### Images
+- Use next/image exclusively
+- Implement lazy loading
+- Include size attributes
+- Use WebP format
+- Implement blur placeholder
+
+### Components
+- Implement code splitting
+- Use dynamic imports
+- Set up Suspense boundaries
+- Minimize client-side JS
+- Use proper loading states
+
+### Web Vitals
+- LCP: < 2.5s
+- FID: < 100ms
+- CLS: < 0.1
+- Monitor in production
+
+### Next.js 15 Optimizations
+- Partial Prerendering:
+  * Static shell generation
+  * Dynamic content streaming
+- Route Handlers:
+  * Edge runtime support
+  * Streaming responses
+- Image Optimization:
+  * next/image with priority
+  * Automatic size optimization
+  * WebP/AVIF formats
+- React Server Components:
+  * Zero client-side JavaScript
+  * Automatic code splitting
+  * Streaming rendering
+
+## Security
+- Sanitize user inputs
+- Implement CSRF protection
+- Use proper auth headers
+- Validate file uploads
+- Implement rate limiting
+
+### Next.js 15 Security Features
+- Server Actions:
+  * Built-in CSRF protection
+  * Input validation
+  * Progressive enhancement
+- Headers Configuration:
+  * CSP setup
+  * CORS policies
+  * Security headers
+- Edge Functions:
+  * Rate limiting
+  * Bot protection
+  * Request validation
+
+## Internationalization
+- Use next-i18next
+- Maintain translation files
+- Support language switching
+- Handle locale-specific content
+
+## Theme Management
+### Configuration
+- Use CSS variables
+- Support dark/light modes
+- Implement smooth transitions
+- Use design tokens
+- Follow color contrast rules
+
+## API Guidelines
+### Route Handlers
+- Centralize in app/api
+- Use proper HTTP methods
+- Implement validation
+- Handle errors gracefully
+- Return proper status codes
+- Type request/response
+
+Always refer to Next.js documentation (https://nextjs.org/docs) for latest updates and best practices.
+
+### GitHub Login Information
+- GitHub Username: talktejas
+- GitHub Email: talktejas@gmail.com
