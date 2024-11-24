@@ -17,7 +17,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import Image from 'next/image'
 
 const sidebarItems = [
   {
@@ -84,17 +83,9 @@ export function Sidebar({ className }: SidebarProps) {
           "flex items-center gap-3 overflow-hidden",
           isExpanded ? "w-full" : "w-12"
         )}>
-          {/* Replace with your logo */}
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className={cn(
-              "rounded-xl transition-all duration-300",
-              isExpanded ? "h-10 w-10 min-w-10" : "h-12 w-12 min-w-12"
-            )}
-          />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold">
+            YB
+          </div>
           <span className={cn(
             "font-semibold transition-all duration-300",
             isExpanded ? "opacity-100" : "opacity-0"
@@ -106,15 +97,9 @@ export function Sidebar({ className }: SidebarProps) {
           variant="ghost"
           size="icon"
           onClick={() => setIsExpanded(!isExpanded)}
-          className={cn(
-            "transition-all duration-300",
-            isExpanded ? "h-10 w-10" : "h-12 w-12"
-          )}
+          className="h-10 w-10"
         >
-          {isExpanded ? 
-            <ChevronLeft className="h-5 w-5" /> : 
-            <Menu className="h-6 w-6" />
-          }
+          {isExpanded ? <ChevronLeft className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
 
@@ -126,19 +111,15 @@ export function Sidebar({ className }: SidebarProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 transition-all',
+                'flex h-10 items-center gap-3 rounded-lg px-3 transition-all',
                 !isExpanded && 'justify-center',
-                isExpanded ? 'h-10' : 'h-12',
                 pathname === item.href
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
               title={isExpanded ? undefined : item.title}
             >
-              <item.icon className={cn(
-                "transition-all duration-300",
-                isExpanded ? "h-5 w-5 min-w-5" : "h-6 w-6 min-w-6"
-              )} />
+              <item.icon className="h-5 w-5 min-w-5" />
               <span className={cn(
                 "whitespace-nowrap transition-all duration-300",
                 isExpanded ? "opacity-100" : "opacity-0 w-0"
@@ -156,19 +137,15 @@ export function Sidebar({ className }: SidebarProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 transition-all',
+                'flex h-10 items-center gap-3 rounded-lg px-3 transition-all',
                 !isExpanded && 'justify-center',
-                isExpanded ? 'h-10' : 'h-12',
                 pathname === item.href
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
               title={isExpanded ? undefined : item.title}
             >
-              <item.icon className={cn(
-                "transition-all duration-300",
-                isExpanded ? "h-5 w-5 min-w-5" : "h-6 w-6 min-w-6"
-              )} />
+              <item.icon className="h-5 w-5 min-w-5" />
               <span className={cn(
                 "whitespace-nowrap transition-all duration-300",
                 isExpanded ? "opacity-100" : "opacity-0 w-0"
